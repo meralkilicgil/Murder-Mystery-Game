@@ -1,6 +1,6 @@
 package com.meri.murdermysterygame.service;
 
-import com.meri.murdermysterygame.ObjectNotFoundException;
+import com.meri.murdermysterygame.exception.ObjectNotFoundException;
 import com.meri.murdermysterygame.dto.MainDto;
 
 import java.util.List;

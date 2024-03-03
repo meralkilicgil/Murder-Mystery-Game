@@ -1,6 +1,6 @@
 package com.meri.murdermysterygame.service;
 
-import com.meri.murdermysterygame.ObjectNotFoundException;
+import com.meri.murdermysterygame.exception.ObjectNotFoundException;
 import com.meri.murdermysterygame.dao.PersonDao;
 import com.meri.murdermysterygame.dto.MainDto;
 import com.meri.murdermysterygame.dto.PersonDto;
@@ -19,12 +19,14 @@ public class PersonService implements RepositoryService{
     @Autowired
     PersonDao personDao;
 
+    PersonDto personDto = new PersonDto();
+
     @Override
     public List<MainDto> getAll() {
         List<Person> personList = personDao.findAllByOrderByName();
         List<MainDto> personDtoList = new ArrayList<>();
         for(Person person: personList){
-            personDtoList.add(convertToDto(person));
+            personDtoList.add(personDto.convertToDto(person));
         }
         return personDtoList;
     }
@@ -32,11 +34,9 @@ public class PersonService implements RepositoryService{
     @Override
     public MainDto getById(Long id) throws ObjectNotFoundException {
         Optional<Person> result = personDao.findById(id);
-        MainDto personDto;
         if(result.isPresent()){
             Person person = result.get();
-            personDto = convertToDto(person);
-            return personDto;
+            return personDto.convertToDto(person);
         }
         else {
             throw new ObjectNotFoundException("Person cannot be found with Id: " + id, HttpStatusCode.valueOf(404));
@@ -45,44 +45,22 @@ public class PersonService implements RepositoryService{
 
     @Override
     public void create(MainDto object) {
-        Person person = convertToDao((PersonDto) object);
+        Person person = (Person) personDto.convertToEntity(object);
         personDao.save(person);
     }
 
     @Override
-    public void update(MainDto updatedPerson, Long id) throws ObjectNotFoundException {
+    public void update(MainDto updatedPerson, Long id) {
         PersonDto personDto = (PersonDto) updatedPerson;
         personDto.setId(id);
-        Person person = convertToDao(personDto);
+        Person person = (Person) personDto.convertToEntity(personDto);
         personDao.save(person);
     }
 
     @Override
     public void delete(Long id) throws ObjectNotFoundException {
         MainDto personDto = getById(id);
-        Person person = convertToDao((PersonDto) personDto);
+        Person person = (Person) personDto.convertToEntity(personDto);
         personDao.delete(person);
-    }
-
-    private PersonDto convertToDto(Person person){
-        PersonDto personDto = new PersonDto();
-        personDto.setId(person.getId());
-        personDto.setName(person.getName());
-        personDto.setLicenseId(person.getLicense_id());
-        personDto.setAddressNumber(person.getAddress_number());
-        personDto.setAddressStreetName(person.getAddress_street_name());
-
-        return personDto;
-    }
-
-    private Person convertToDao(PersonDto personDto){
-        Person person = new Person();
-        person.setId(personDto.getId());
-        person.setName(personDto.getName());
-        person.setLicense_id(personDto.getLicenseId());
-        person.setAddress_number(personDto.getAddressNumber());
-        person.setAddress_street_name(personDto.getAddressStreetName());
-
-        return person;
     }
 }

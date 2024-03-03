@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "interview")
-public class Interview {
+public class Interview implements MainEntity{
 
     @Id
     @Column(name = "person_id")

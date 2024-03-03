@@ -1,5 +1,7 @@
 package com.meri.murdermysterygame.dto;
 
+import com.meri.murdermysterygame.entity.MainEntity;
+
 public class DriversLicenseDto implements MainDto{
     private Long id;
     private int age;
@@ -63,5 +65,15 @@ public class DriversLicenseDto implements MainDto{
 
     public void setCarModel(String carModel) {
         this.carModel = carModel;
+    }
+
+    @Override
+    public MainDto convertToDto(MainEntity entity) {
+        return null;
+    }
+
+    @Override
+    public MainEntity convertToEntity(MainDto dto) {
+        return null;
     }
 }

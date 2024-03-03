@@ -1,4 +1,4 @@
-package com.meri.murdermysterygame;
+package com.meri.murdermysterygame.exception;
 
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatusCode;
