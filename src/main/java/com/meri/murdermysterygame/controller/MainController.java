@@ -2,7 +2,7 @@ package com.meri.murdermysterygame.controller;
 
 
 import com.meri.murdermysterygame.dto.MainDto;
-import com.meri.murdermysterygame.service.PersonService;
+import com.meri.murdermysterygame.service.PersonDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +13,7 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    PersonService personService;
+    PersonDao personDao;
 
     @GetMapping("/")
     public String index(){
@@ -22,6 +22,6 @@ public class MainController {
 
     @GetMapping("/getAllPeople")
     public List<MainDto> getAllPeople(){
-        return personService.getAll();
+        return personDao.getAll();
     }
 }

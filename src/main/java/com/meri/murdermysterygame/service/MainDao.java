@@ -5,7 +5,7 @@ import com.meri.murdermysterygame.dto.MainDto;
 
 import java.util.List;
 
-public interface RepositoryService {
+public interface MainDao {
     List<MainDto> getAll();
     MainDto getById(Long id) throws ObjectNotFoundException;
 
