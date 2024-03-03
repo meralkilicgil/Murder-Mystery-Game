@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "person")
-public class Person implements MainEntity{
+public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,13 +15,13 @@ public class Person implements MainEntity{
     private String name;
 
     @Column(name = "license_id")
-    private Long license_id;
+    private Long licenseId;
 
     @Column(name = "address_number")
-    private int address_number;
+    private int addressNumber;
 
     @Column(name = "address_street_name")
-    private String address_street_name;
+    private String addressStreetName;
 
     public Long getId() {
         return id;
@@ -39,27 +39,27 @@ public class Person implements MainEntity{
         this.name = name;
     }
 
-    public Long getLicense_id() {
-        return license_id;
+    public Long getLicenseId() {
+        return licenseId;
     }
 
-    public void setLicense_id(Long license_id) {
-        this.license_id = license_id;
+    public void setLicenseId(Long licenseId) {
+        this.licenseId = licenseId;
     }
 
-    public int getAddress_number() {
-        return address_number;
+    public int getAddressNumber() {
+        return addressNumber;
     }
 
-    public void setAddress_number(int address_number) {
-        this.address_number = address_number;
+    public void setAddressNumber(int addressNumber) {
+        this.addressNumber = addressNumber;
     }
 
-    public String getAddress_street_name() {
-        return address_street_name;
+    public String getAddressStreetName() {
+        return addressStreetName;
     }
 
-    public void setAddress_street_name(String address_street_name) {
-        this.address_street_name = address_street_name;
+    public void setAddressStreetName(String addressStreetName) {
+        this.addressStreetName = addressStreetName;
     }
 }

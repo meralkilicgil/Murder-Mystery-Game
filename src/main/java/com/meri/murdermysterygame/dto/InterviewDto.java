@@ -1,8 +1,6 @@
 package com.meri.murdermysterygame.dto;
 
-import com.meri.murdermysterygame.entity.MainEntity;
-
-public class InterviewDto implements MainDto{
+public class InterviewDto{
     private Long personId;
     private String transcript;
 
@@ -20,15 +18,5 @@ public class InterviewDto implements MainDto{
 
     public void setTranscript(String transcript) {
         this.transcript = transcript;
-    }
-
-    @Override
-    public MainDto convertToDto(MainEntity entity) {
-        return null;
-    }
-
-    @Override
-    public MainEntity convertToEntity(MainDto dto) {
-        return null;
     }
 }

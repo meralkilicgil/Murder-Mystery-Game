@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "drivers_license")
-public class DriversLicense implements MainEntity{
+public class DriversLicense {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

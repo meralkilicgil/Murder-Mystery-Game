@@ -1,4 +1,4 @@
-package com.meri.murdermysterygame.dao;
+package com.meri.murdermysterygame.repository;
 
 import com.meri.murdermysterygame.entity.DriversLicense;
 import org.springframework.data.jpa.repository.JpaRepository;

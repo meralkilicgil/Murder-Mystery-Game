@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Persons</title>
+</head>
+<body>
+<h1>Persons</h1>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>License ID</th>
+        <th>Address</th>
+    </tr>
+    <tr th:each="person : ${persons}">
+        <td th:text="${person.id}"></td>
+        <td th:text="${person.name}"></td>
+        <td th:text="${person.licenseId}"></td>
+        <td th:text="${person.addressNumber} + ' ' + ${person.addressStreetName}"></td>
+    </tr>
+</table>
+<form action="/addPerson" method="post">
+    Name: <input type="text" name="name">
+    License ID: <input type="text" name="licenseId">
+    Address Number: <input type="text" name="addressNumber">
+    Address Street Name: <input type="text" name="addressStreetName">
+    <input type="submit" value="Add Person">
+</form>
+<form action="/deletePerson" method="post">
+    Person ID to delete: <input type="text" name="id">
+    <input type="submit" value="Delete Person">
+</form>
+</body>
+</html>
