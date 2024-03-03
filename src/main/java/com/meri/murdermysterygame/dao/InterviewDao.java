@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface InterviewDao extends JpaRepository<Interview, Long> {
 
-    List<Interview> findAllByOrderByPerson_id();
+    //List<Interview> findAllByOrderByPerson_id();
 }
