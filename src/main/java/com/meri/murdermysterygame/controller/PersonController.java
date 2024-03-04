@@ -4,9 +4,7 @@ package com.meri.murdermysterygame.controller;
 import com.meri.murdermysterygame.dto.PersonDto;
 import com.meri.murdermysterygame.exception.ObjectNotFoundException;
 import com.meri.murdermysterygame.service.PersonService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,5 +36,25 @@ public class PersonController {
             System.out.println("not found");
         }
         return personDto;
+    }
+
+    @PostMapping("/addPerson")
+    public void addPerson(@RequestBody PersonDto personDto){
+        personService.createPerson(personDto);
+    }
+
+    @PutMapping("/updatePerson")
+    public void updatePerson(@RequestBody PersonDto personDto, @RequestParam("id") Long id){
+        personService.updatePerson(personDto, id);
+    }
+
+    @DeleteMapping("/deletePerson")
+    public void deletePerson(@RequestParam("id") Long id){
+        try {
+            PersonDto personDto = personService.getPersonById(id);
+            personService.deletePerson(personDto);
+        } catch (ObjectNotFoundException e) {
+            System.out.println("Person cannot be found to delete.");
+        }
     }
 }

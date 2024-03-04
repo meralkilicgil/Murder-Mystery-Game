@@ -31,8 +31,11 @@ public class PersonService {
     }
 
     public PersonDto getPersonById(Long id) throws ObjectNotFoundException {
-        Person person = personDao.getById(id);
-        return DtoUtils.convertPersonEntityToPersonDto(person);
+        Optional<Person> result = personDao.getById(id);
+        if(result.isPresent()) {
+            return DtoUtils.convertPersonEntityToPersonDto(result.get());
+        }
+        throw new ObjectNotFoundException("Person cannot be found with Id: " + id, HttpStatusCode.valueOf(404));
     }
 
     public void createPerson(PersonDto personDto) {

@@ -5,6 +5,7 @@ import com.meri.murdermysterygame.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonDao {
@@ -19,8 +20,8 @@ public class PersonDao {
         return personRepository.findAllByOrderByName();
     }
 
-    public Person getById(Long id) {
-        return personRepository.findPersonWithDriversLicenseById(id);
+    public Optional<Person> getById(Long id) {
+        return personRepository.findById(id);
     }
 
     public void create(Person person) {

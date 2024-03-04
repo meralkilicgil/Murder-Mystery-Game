@@ -20,8 +20,8 @@ public class InterviewDao {
         return interviewRepository.findAllByOrderByPersonId();
     }
 
-    public Interview getById(Long id){
-        return interviewRepository.findInterviewWithPersonById(id);
+    public Optional<Interview> getById(Long id){
+        return interviewRepository.findById(id);
     }
 
     public void create(Interview interview){

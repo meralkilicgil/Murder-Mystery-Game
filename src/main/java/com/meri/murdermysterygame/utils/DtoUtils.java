@@ -15,12 +15,16 @@ public class DtoUtils {
     public static PersonDto convertPersonEntityToPersonDto(Person entity) {
         PersonDto personDto = new PersonDto();
         BeanUtils.copyProperties(entity, personDto);
-        DriversLicenseDto driversLicenseDto = new DriversLicenseDto();
-        BeanUtils.copyProperties(entity.getDriversLicense(), driversLicenseDto);
-        personDto.setDriversLicense(driversLicenseDto);
-        List<Interview> interviewList = entity.getInterviews();
-        List<InterviewDto> interviewDtoList = interviewList.stream().map(DtoUtils::convertInterviewEntityToInterviewDto).toList();
-        personDto.setInterviewDtoList(interviewDtoList);
+        if (entity.getDriversLicense() != null) {
+            DriversLicenseDto driversLicenseDto = new DriversLicenseDto();
+            BeanUtils.copyProperties(entity.getDriversLicense(), driversLicenseDto);
+            personDto.setDriversLicense(driversLicenseDto);
+        }
+        if (entity.getInterviews() != null && !entity.getInterviews().isEmpty()){
+            List<Interview> interviewList = entity.getInterviews();
+            List<InterviewDto> interviewDtoList = interviewList.stream().map(DtoUtils::convertInterviewEntityToInterviewDto).toList();
+            personDto.setInterviewDtoList(interviewDtoList);
+        }
         return personDto;
     }
 
@@ -45,9 +49,11 @@ public class DtoUtils {
     public static InterviewDto convertInterviewEntityToInterviewDto(Interview entity) {
         InterviewDto interviewDto = new InterviewDto();
         BeanUtils.copyProperties(entity, interviewDto);
-        PersonDto personDto = new PersonDto();
-        BeanUtils.copyProperties(entity.getPerson(), personDto);
-        interviewDto.setPerson(personDto);
+        if(entity.getPerson() != null) {
+            PersonDto personDto = new PersonDto();
+            BeanUtils.copyProperties(entity.getPerson(), personDto);
+            interviewDto.setPerson(personDto);
+        }
         return interviewDto;
     }
 
