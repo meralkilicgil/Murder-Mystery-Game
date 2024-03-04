@@ -2,6 +2,8 @@ package com.meri.murdermysterygame.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "person")
 public class Person {
@@ -14,14 +16,18 @@ public class Person {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "license_id")
-    private Long licenseId;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "license_id")
+    private DriversLicense driversLicense;
 
     @Column(name = "address_number")
     private int addressNumber;
 
     @Column(name = "address_street_name")
     private String addressStreetName;
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    private List<Interview> interviews;
 
     public Long getId() {
         return id;
@@ -39,12 +45,12 @@ public class Person {
         this.name = name;
     }
 
-    public Long getLicenseId() {
-        return licenseId;
+    public DriversLicense getDriversLicense() {
+        return driversLicense;
     }
 
-    public void setLicenseId(Long licenseId) {
-        this.licenseId = licenseId;
+    public void setDriversLicense(DriversLicense driversLicense) {
+        this.driversLicense = driversLicense;
     }
 
     public int getAddressNumber() {
@@ -61,5 +67,13 @@ public class Person {
 
     public void setAddressStreetName(String addressStreetName) {
         this.addressStreetName = addressStreetName;
+    }
+
+    public List<Interview> getInterviews() {
+        return interviews;
+    }
+
+    public void setInterviews(List<Interview> interviews) {
+        this.interviews = interviews;
     }
 }

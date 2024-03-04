@@ -7,18 +7,30 @@ import jakarta.persistence.*;
 public class Interview {
 
     @Id
-    @Column(name = "person_id")
-    private Long personId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "person_id")
+    private Person person;
 
     @Column(name = "transcript")
     private String transcript;
 
-    public Long getPersonId() {
-        return personId;
+    public Long getId() {
+        return id;
     }
 
-    public void setPersonId(Long personId) {
-        this.personId = personId;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public String getTranscript() {

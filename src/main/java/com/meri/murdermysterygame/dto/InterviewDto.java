@@ -1,15 +1,25 @@
 package com.meri.murdermysterygame.dto;
 
 public class InterviewDto{
-    private Long personId;
+
+    private Long id;
+    private PersonDto person;
     private String transcript;
 
-    public Long getPersonId() {
-        return personId;
+    public Long getId() {
+        return id;
     }
 
-    public void setPersonId(Long personId) {
-        this.personId = personId;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public PersonDto getPerson() {
+        return person;
+    }
+
+    public void setPerson(PersonDto person) {
+        this.person = person;
     }
 
     public String getTranscript() {

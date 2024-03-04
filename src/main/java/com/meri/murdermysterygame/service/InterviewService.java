@@ -26,11 +26,8 @@ public class InterviewService {
     }
 
     public InterviewDto getInterviewById(Long id) throws ObjectNotFoundException {
-        Optional<Interview> result = interviewDao.getById(id);
-        if(result.isPresent()){
-            return DtoUtils.convertInterviewEntityToInterviewDto(result.get());
-        }
-        throw new ObjectNotFoundException("Interview cannot be found with Id: " + id, HttpStatusCode.valueOf(404));
+        Interview interview = interviewDao.getById(id);
+        return DtoUtils.convertInterviewEntityToInterviewDto(interview);
     }
 
     public void createInterview(InterviewDto interviewDto){
@@ -40,12 +37,12 @@ public class InterviewService {
 
     public void updateInterview(InterviewDto interviewDto, Long id) {
         Interview interview = DtoUtils.convertInterviewDtoToInterviewEntity(interviewDto);
-        interview.setPersonId(id);
+        interview.setId(id);
         interviewDao.update(interview);
     }
 
     public void deleteInterview(InterviewDto interviewDto){
-        Long id = interviewDto.getPersonId();
+        Long id = interviewDto.getId();
         interviewDao.delete(id);
     }
 }

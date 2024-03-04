@@ -17,11 +17,11 @@ public class InterviewDao {
     }
 
     public List<Interview> getAll(){
-        return interviewRepository.findAll();
+        return interviewRepository.findAllByOrderByPersonId();
     }
 
-    public Optional<Interview> getById(Long id){
-        return interviewRepository.findById(id);
+    public Interview getById(Long id){
+        return interviewRepository.findInterviewWithPersonById(id);
     }
 
     public void create(Interview interview){
