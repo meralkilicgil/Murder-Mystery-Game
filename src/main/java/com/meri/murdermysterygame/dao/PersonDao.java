@@ -1,34 +1,27 @@
 package com.meri.murdermysterygame.dao;
 
-import com.meri.murdermysterygame.exception.ObjectNotFoundException;
-import com.meri.murdermysterygame.repository.PersonRepository;
-import com.meri.murdermysterygame.dto.PersonDto;
 import com.meri.murdermysterygame.entity.Person;
-import com.meri.murdermysterygame.utils.DtoUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
+import com.meri.murdermysterygame.repository.PersonRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class PersonDao {
 
-    @Autowired
-    PersonRepository personRepository;
+    private final PersonRepository personRepository;
 
-    PersonDto personDto = new PersonDto();
+    public PersonDao(PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
 
     public List<Person> getAll() {
         return personRepository.findAllByOrderByName();
     }
 
     public Optional<Person> getById(Long id) {
-        Optional<Person> result = personRepository.findById(id);
-        return result;
+        return personRepository.findById(id);
     }
 
     public void create(Person person) {

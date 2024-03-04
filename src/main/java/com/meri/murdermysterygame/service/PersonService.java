@@ -36,9 +36,7 @@ public class PersonService {
             Person person = result.get();
             return DtoUtils.convertPersonEntityToPersonDto(person);
         }
-        else {
-            throw new ObjectNotFoundException("Person cannot be found with Id: " + id, HttpStatusCode.valueOf(404));
-        }
+        throw new ObjectNotFoundException("Person cannot be found with Id: " + id, HttpStatusCode.valueOf(404));
     }
 
     public void createPerson(PersonDto personDto) {

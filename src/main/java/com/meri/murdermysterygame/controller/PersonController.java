@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 public class PersonController {
 
-    private PersonService personService;
+    private final PersonService personService;
 
     public PersonController(PersonService personService) {
         this.personService = personService;

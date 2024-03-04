@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface DriversLicenseRepository extends JpaRepository<DriversLicense, Long> {
 
     List<DriversLicense> findAllByOrderById();
