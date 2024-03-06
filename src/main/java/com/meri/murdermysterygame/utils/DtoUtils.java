@@ -19,6 +19,7 @@ public class DtoUtils {
             DriversLicenseDto driversLicenseDto = new DriversLicenseDto();
             BeanUtils.copyProperties(entity.getDriversLicense(), driversLicenseDto);
             personDto.setDriversLicense(driversLicenseDto);
+            personDto.setLicenseId(driversLicenseDto.getId());
         }
         if (entity.getInterviews() != null && !entity.getInterviews().isEmpty()){
             List<Interview> interviewList = entity.getInterviews();
@@ -31,6 +32,10 @@ public class DtoUtils {
     public static Person convertPersonDtoToPersonEntity(PersonDto dto) {
         Person personEntity = new Person();
         BeanUtils.copyProperties(dto, personEntity);
+        if(dto.getDriversLicense() != null){
+            DriversLicense driversLicense = convertDriversLicenseDtoToDriversLicenseEntity(dto.getDriversLicense());
+            personEntity.setDriversLicense(driversLicense);
+        }
         return personEntity;
     }
 
@@ -53,6 +58,7 @@ public class DtoUtils {
             PersonDto personDto = new PersonDto();
             BeanUtils.copyProperties(entity.getPerson(), personDto);
             interviewDto.setPerson(personDto);
+            interviewDto.setPersonId(personDto.getId());
         }
         return interviewDto;
     }
@@ -60,6 +66,10 @@ public class DtoUtils {
     public static Interview convertInterviewDtoToInterviewEntity(InterviewDto dto) {
         Interview interview = new Interview();
         BeanUtils.copyProperties(dto, interview);
+        if(dto.getPersonId() != null){
+            Person person = convertPersonDtoToPersonEntity(dto.getPerson());
+            interview.setPerson(person);
+        }
         return interview;
     }
 }

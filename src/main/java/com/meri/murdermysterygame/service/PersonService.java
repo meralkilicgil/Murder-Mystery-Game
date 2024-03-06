@@ -1,15 +1,13 @@
 package com.meri.murdermysterygame.service;
 
 import com.meri.murdermysterygame.dao.PersonDao;
+import com.meri.murdermysterygame.dto.DriversLicenseDto;
 import com.meri.murdermysterygame.dto.PersonDto;
 import com.meri.murdermysterygame.entity.Person;
 import com.meri.murdermysterygame.exception.ObjectNotFoundException;
 import com.meri.murdermysterygame.utils.DtoUtils;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -20,9 +18,11 @@ import java.util.Optional;
 public class PersonService {
 
     private final PersonDao personDao;
+    private final DriversLicenseService driversLicenseService;
 
-    public PersonService(PersonDao personDao) {
+    public PersonService(PersonDao personDao, DriversLicenseService driversLicenseService) {
         this.personDao = personDao;
+        this.driversLicenseService = driversLicenseService;
     }
 
     public List<PersonDto> getPersonDtoList(){
@@ -38,15 +38,29 @@ public class PersonService {
         throw new ObjectNotFoundException("Person cannot be found with Id: " + id, HttpStatusCode.valueOf(404));
     }
 
-    public void createPerson(PersonDto personDto) {
+    public PersonDto createPerson(PersonDto personDto) throws ObjectNotFoundException {
+        Long licenseId = personDto.getLicenseId();
+        if( licenseId != null){
+            DriversLicenseDto driversLicenseDto= new DriversLicenseDto();
+            driversLicenseDto.setId(personDto.getLicenseId());
+            personDto.setDriversLicense(driversLicenseDto);
+        }
         Person person = DtoUtils.convertPersonDtoToPersonEntity(personDto);
-        personDao.create(person);
+        person = personDao.create(person);
+        return getPersonById(person.getId());
     }
 
-    public void updatePerson(PersonDto personDto, Long id){
+    public PersonDto updatePerson(PersonDto personDto, Long id) throws ObjectNotFoundException {
+        Long licenseId = personDto.getLicenseId();
+        if( licenseId != null){
+            DriversLicenseDto driversLicenseDto= new DriversLicenseDto();
+            driversLicenseDto.setId(personDto.getLicenseId());
+            personDto.setDriversLicense(driversLicenseDto);
+        }
         Person person = DtoUtils.convertPersonDtoToPersonEntity(personDto);
         person.setId(id);
         personDao.update(person);
+        return getPersonById(id);
     }
 
     public void deletePerson(PersonDto personDto){

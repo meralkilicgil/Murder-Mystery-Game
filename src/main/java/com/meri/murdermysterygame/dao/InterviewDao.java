@@ -17,7 +17,7 @@ public class InterviewDao {
     }
 
     public List<Interview> getAll(){
-        return interviewRepository.findAllByOrderByPersonId();
+        return interviewRepository.findAllByOrderById();
     }
 
     public Optional<Interview> getById(Long id){

@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class DriversLicense {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -28,6 +27,9 @@ public class DriversLicense {
 
     @Column(name = "car_model")
     private String carModel;
+
+    @OneToOne(mappedBy = "driversLicense", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Person person;
 
     public Long getId() {
         return id;
@@ -83,5 +85,13 @@ public class DriversLicense {
 
     public void setCarModel(String carModel) {
         this.carModel = carModel;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }

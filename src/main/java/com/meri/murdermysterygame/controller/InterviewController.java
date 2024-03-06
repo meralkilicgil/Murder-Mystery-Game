@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/interview")
 public class InterviewController {
 
     private final InterviewService interviewService;
@@ -17,12 +18,12 @@ public class InterviewController {
         this.interviewService = interviewService;
     }
 
-    @GetMapping("/getAllInterviews")
+    @GetMapping("/getAll")
     public List<InterviewDto> getAllInterviews(){
         return interviewService.getAllInterviewDtoList();
     }
 
-    @GetMapping("/getInterview")
+    @GetMapping("/get")
     public InterviewDto getInterview(@RequestParam("id") Long id){
         InterviewDto interviewDto = null;
         try {
@@ -33,21 +34,20 @@ public class InterviewController {
         return interviewDto;
     }
 
-    @PostMapping("/addInterview")
-    public void addInterview(@RequestBody InterviewDto interviewDto){
-        interviewService.createInterview(interviewDto);
+    @PostMapping("/add")
+    public InterviewDto addInterview(@RequestBody InterviewDto interviewDto) throws ObjectNotFoundException {
+        return interviewService.createInterview(interviewDto);
     }
 
-    @PutMapping("/updateInterview")
-    public void updateInterview(@RequestBody InterviewDto interviewDto, @RequestParam("id") Long id){
-        interviewService.updateInterview(interviewDto, id);
+    @PutMapping("/update")
+    public InterviewDto updateInterview(@RequestBody InterviewDto interviewDto, @RequestParam("id") Long id) throws ObjectNotFoundException {
+        return interviewService.updateInterview(interviewDto, id);
     }
 
-    @DeleteMapping("/deleteInterview")
+    @DeleteMapping("/delete")
     public void deletePInterview(@RequestParam("id") Long id) {
         try {
-            InterviewDto interviewDto = null;
-            interviewDto = interviewService.getInterviewById(id);
+            InterviewDto interviewDto = interviewService.getInterviewById(id);
             interviewService.deleteInterview(interviewDto);
         } catch (ObjectNotFoundException e) {
             System.out.println("interview cannot be found to delete");

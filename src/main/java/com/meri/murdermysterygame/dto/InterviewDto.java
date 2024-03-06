@@ -4,6 +4,8 @@ public class InterviewDto{
 
     private Long id;
     private PersonDto person;
+
+    private Long personId;
     private String transcript;
 
     public Long getId() {
@@ -16,6 +18,14 @@ public class InterviewDto{
 
     public PersonDto getPerson() {
         return person;
+    }
+
+    public Long getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Long personId) {
+        this.personId = personId;
     }
 
     public void setPerson(PersonDto person) {

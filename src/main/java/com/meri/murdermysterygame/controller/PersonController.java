@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/person")
 public class PersonController {
 
     private final PersonService personService;
@@ -22,12 +23,12 @@ public class PersonController {
         return "Welcome Murder Mystery Game!";
     }
 
-    @GetMapping("/getAllPeople")
+    @GetMapping("/getAll")
     public List<PersonDto> getAllPeople(){
         return personService.getPersonDtoList();
     }
 
-    @GetMapping("/getPerson")
+    @GetMapping("/get")
     public PersonDto getPerson(@RequestParam("id") Long id){
         PersonDto personDto = null;
         try {
@@ -38,17 +39,17 @@ public class PersonController {
         return personDto;
     }
 
-    @PostMapping("/addPerson")
-    public void addPerson(@RequestBody PersonDto personDto){
-        personService.createPerson(personDto);
+    @PostMapping("/add")
+    public PersonDto addPerson(@RequestBody PersonDto personDto) throws ObjectNotFoundException {
+        return personService.createPerson(personDto);
     }
 
-    @PutMapping("/updatePerson")
-    public void updatePerson(@RequestBody PersonDto personDto, @RequestParam("id") Long id){
-        personService.updatePerson(personDto, id);
+    @PutMapping("/update")
+    public PersonDto updatePerson(@RequestBody PersonDto personDto, @RequestParam("id") Long id) throws ObjectNotFoundException {
+        return personService.updatePerson(personDto, id);
     }
 
-    @DeleteMapping("/deletePerson")
+    @DeleteMapping("/delete")
     public void deletePerson(@RequestParam("id") Long id){
         try {
             PersonDto personDto = personService.getPersonById(id);

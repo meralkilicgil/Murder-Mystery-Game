@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/driversLicense")
 public class DriversLicenseController {
 
     private final DriversLicenseService driversLicenseService;
@@ -16,12 +17,12 @@ public class DriversLicenseController {
         this.driversLicenseService = driversLicenseService;
     }
 
-    @GetMapping("/getAllDriversLicense")
+    @GetMapping("/getAll")
     public List<DriversLicenseDto> getAllDriversLicense(){
         return driversLicenseService.getDriversLicenseDtoList();
     }
 
-    @GetMapping("/getDriversLicense")
+    @GetMapping("/get")
     public DriversLicenseDto getDriversLicense(@RequestParam(name = "id") Long id){
         try {
             return driversLicenseService.getDriversLicenseById(id);
@@ -31,17 +32,17 @@ public class DriversLicenseController {
         return null;
     }
 
-    @PostMapping("/addDriversLicense")
-    public void addDriversLicense(@RequestBody DriversLicenseDto driversLicenseDto){
-        driversLicenseService.createDriversLicense(driversLicenseDto);
+    @PostMapping("/add")
+    public DriversLicenseDto addDriversLicense(@RequestBody DriversLicenseDto driversLicenseDto) throws ObjectNotFoundException {
+        return driversLicenseService.createDriversLicense(driversLicenseDto);
     }
 
-    @PutMapping("/updateDriversLicense")
-    public void updateDriversLicense(@RequestBody DriversLicenseDto driversLicenseDto, @RequestParam(name = "id") Long id){
-        driversLicenseService.updateDriversLicense(driversLicenseDto, id);
+    @PutMapping("/update")
+    public DriversLicenseDto updateDriversLicense(@RequestBody DriversLicenseDto driversLicenseDto, @RequestParam(name = "id") Long id) throws ObjectNotFoundException {
+        return driversLicenseService.updateDriversLicense(driversLicenseDto, id);
     }
 
-    @DeleteMapping("/deleteDriversLicense")
+    @DeleteMapping("/delete")
     public void deleteDriversLicense(@RequestParam(name = "id") Long id){
         try {
             DriversLicenseDto driversLicenseDto = driversLicenseService.getDriversLicenseById(id);

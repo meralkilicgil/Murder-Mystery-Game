@@ -33,15 +33,17 @@ public class DriversLicenseService {
         throw new ObjectNotFoundException("Drivers License cannot be found with Id: " + id, HttpStatusCode.valueOf(404));
     }
 
-    public void createDriversLicense(DriversLicenseDto driversLicenseDto){
+    public DriversLicenseDto createDriversLicense(DriversLicenseDto driversLicenseDto) throws ObjectNotFoundException {
         DriversLicense driversLicense = DtoUtils.convertDriversLicenseDtoToDriversLicenseEntity(driversLicenseDto);
         driversLicenseDao.create(driversLicense);
+        return getDriversLicenseById(driversLicense.getId());
     }
 
-    public void updateDriversLicense(DriversLicenseDto driversLicenseDto, Long id){
+    public DriversLicenseDto updateDriversLicense(DriversLicenseDto driversLicenseDto, Long id) throws ObjectNotFoundException {
         DriversLicense driversLicense = DtoUtils.convertDriversLicenseDtoToDriversLicenseEntity(driversLicenseDto);
         driversLicense.setId(id);
         driversLicenseDao.update(driversLicense);
+        return getDriversLicenseById(id);
     }
 
     public void deleteDriversLicense(DriversLicenseDto driversLicenseDto){

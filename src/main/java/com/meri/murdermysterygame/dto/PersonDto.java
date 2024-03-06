@@ -5,6 +5,7 @@ import java.util.List;
 public class PersonDto{
     private Long id;
     private String name;
+    private Long licenseId;
     private DriversLicenseDto driversLicense;
     private int addressNumber;
     private String addressStreetName;
@@ -24,6 +25,14 @@ public class PersonDto{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getLicenseId() {
+        return licenseId;
+    }
+
+    public void setLicenseId(Long licenseId) {
+        this.licenseId = licenseId;
     }
 
     public DriversLicenseDto getDriversLicense() {

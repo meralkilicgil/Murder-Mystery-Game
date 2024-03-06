@@ -1,5 +1,6 @@
 package com.meri.murdermysterygame.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -16,8 +17,9 @@ public class Person {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "license_id")
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "license_id", referencedColumnName = "id")
+    @JsonBackReference
     private DriversLicense driversLicense;
 
     @Column(name = "address_number")

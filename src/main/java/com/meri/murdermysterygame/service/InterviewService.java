@@ -2,6 +2,7 @@ package com.meri.murdermysterygame.service;
 
 import com.meri.murdermysterygame.dao.InterviewDao;
 import com.meri.murdermysterygame.dto.InterviewDto;
+import com.meri.murdermysterygame.dto.PersonDto;
 import com.meri.murdermysterygame.entity.Interview;
 import com.meri.murdermysterygame.exception.ObjectNotFoundException;
 import com.meri.murdermysterygame.utils.DtoUtils;
@@ -33,15 +34,22 @@ public class InterviewService {
         throw new ObjectNotFoundException("Interview cannot be found with Id: " + id, HttpStatusCode.valueOf(404));
     }
 
-    public void createInterview(InterviewDto interviewDto){
+    public InterviewDto createInterview(InterviewDto interviewDto) throws ObjectNotFoundException {
+        if(interviewDto.getPersonId() != null){
+            PersonDto personDto = new PersonDto();
+            personDto.setId(interviewDto.getPersonId());
+            interviewDto.setPerson(personDto);
+        }
         Interview interview = DtoUtils.convertInterviewDtoToInterviewEntity(interviewDto);
         interviewDao.create(interview);
+        return getInterviewById(interview.getId());
     }
 
-    public void updateInterview(InterviewDto interviewDto, Long id) {
+    public InterviewDto updateInterview(InterviewDto interviewDto, Long id) throws ObjectNotFoundException {
         Interview interview = DtoUtils.convertInterviewDtoToInterviewEntity(interviewDto);
         interview.setId(id);
         interviewDao.update(interview);
+        return getInterviewById(id);
     }
 
     public void deleteInterview(InterviewDto interviewDto){

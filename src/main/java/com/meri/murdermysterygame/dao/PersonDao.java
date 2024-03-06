@@ -24,12 +24,12 @@ public class PersonDao {
         return personRepository.findById(id);
     }
 
-    public void create(Person person) {
-        personRepository.save(person);
+    public Person create(Person person) {
+        return personRepository.save(person);
     }
 
-    public void update(Person updatedPerson) {
-        personRepository.save(updatedPerson);
+    public Person update(Person updatedPerson) {
+        return personRepository.save(updatedPerson);
     }
 
     public void delete(Long id) {
