@@ -18,11 +18,9 @@ import java.util.Optional;
 public class PersonService {
 
     private final PersonDao personDao;
-    private final DriversLicenseService driversLicenseService;
 
-    public PersonService(PersonDao personDao, DriversLicenseService driversLicenseService) {
+    public PersonService(PersonDao personDao) {
         this.personDao = personDao;
-        this.driversLicenseService = driversLicenseService;
     }
 
     public List<PersonDto> getPersonDtoList(){
@@ -65,5 +63,13 @@ public class PersonService {
 
     public void deletePerson(PersonDto personDto){
         personDao.delete(personDto.getId());
+    }
+
+    public PersonDto getPersonByLicenseId(Long id) throws ObjectNotFoundException {
+        Optional<Person> result = personDao.getByLicenseId(id);
+        if(result.isPresent())
+            return DtoUtils.convertPersonEntityToPersonDto(result.get());
+
+        throw new ObjectNotFoundException("person not found with license id: " + id, HttpStatusCode.valueOf(404));
     }
 }

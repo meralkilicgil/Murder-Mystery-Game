@@ -10,15 +10,18 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class InterviewService {
 
     private final InterviewDao interviewDao;
+    private final PersonService personService;
 
-    public InterviewService(InterviewDao interviewDao) {
+    public InterviewService(InterviewDao interviewDao, PersonService personService) {
         this.interviewDao = interviewDao;
+        this.personService = personService;
     }
 
     public List<InterviewDto> getAllInterviewDtoList(){
@@ -36,9 +39,14 @@ public class InterviewService {
 
     public InterviewDto createInterview(InterviewDto interviewDto) throws ObjectNotFoundException {
         if(interviewDto.getPersonId() != null){
-            PersonDto personDto = new PersonDto();
-            personDto.setId(interviewDto.getPersonId());
-            interviewDto.setPerson(personDto);
+            try{
+                PersonDto personDto = personService.getPersonById(interviewDto.getPersonId());
+                personDto.setId(interviewDto.getPersonId());
+                interviewDto.setPerson(personDto);
+            }
+            catch (ObjectNotFoundException ex){
+                System.out.println("Person is not created, skipping...");
+            }
         }
         Interview interview = DtoUtils.convertInterviewDtoToInterviewEntity(interviewDto);
         interviewDao.create(interview);
@@ -49,11 +57,32 @@ public class InterviewService {
         Interview interview = DtoUtils.convertInterviewDtoToInterviewEntity(interviewDto);
         interview.setId(id);
         interviewDao.update(interview);
+        if(interviewDto.getPersonId() != null){
+            updatePerson(interviewDto.getPersonId(), interviewDto);
+        }
         return getInterviewById(id);
     }
 
     public void deleteInterview(InterviewDto interviewDto){
         Long id = interviewDto.getId();
         interviewDao.delete(id);
+    }
+
+    public void updatePerson(Long personId, InterviewDto interviewDto) {
+        try {
+            PersonDto personDto = personService.getPersonById(personId);
+            List<InterviewDto> interviewDtoList = personDto.getInterviewDtoList();
+            interviewDtoList = interviewDtoList.stream().map(i -> {
+                if (Objects.equals(i.getId(), interviewDto.getId())) {
+                    i = interviewDto;
+                }
+                return i;
+            }).toList();
+            personDto.setInterviewDtoList(interviewDtoList);
+            personService.updatePerson(personDto, personDto.getId());
+        }
+        catch (ObjectNotFoundException ex){
+            System.out.println("Person record not found, skipping...");
+        }
     }
 }

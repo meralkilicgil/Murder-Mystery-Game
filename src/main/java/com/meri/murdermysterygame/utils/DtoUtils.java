@@ -36,6 +36,11 @@ public class DtoUtils {
             DriversLicense driversLicense = convertDriversLicenseDtoToDriversLicenseEntity(dto.getDriversLicense());
             personEntity.setDriversLicense(driversLicense);
         }
+        if(dto.getInterviewDtoList() != null && !dto.getInterviewDtoList().isEmpty()){
+            List<InterviewDto> interviewDtoList = dto.getInterviewDtoList();
+            List<Interview> interviewList = interviewDtoList.stream().map(DtoUtils::convertInterviewDtoToInterviewEntity).toList();
+            personEntity.setInterviews(interviewList);
+        }
         return personEntity;
     }
 
@@ -66,7 +71,7 @@ public class DtoUtils {
     public static Interview convertInterviewDtoToInterviewEntity(InterviewDto dto) {
         Interview interview = new Interview();
         BeanUtils.copyProperties(dto, interview);
-        if(dto.getPersonId() != null){
+        if(dto.getPersonId() != null && dto.getPerson() != null){
             Person person = convertPersonDtoToPersonEntity(dto.getPerson());
             interview.setPerson(person);
         }

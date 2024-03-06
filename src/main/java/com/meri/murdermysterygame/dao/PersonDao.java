@@ -35,4 +35,8 @@ public class PersonDao {
     public void delete(Long id) {
         personRepository.deleteById(id);
     }
+
+    public Optional<Person> getByLicenseId(Long licenseId){
+        return personRepository.findPersonByLicenseId(licenseId);
+    }
 }
