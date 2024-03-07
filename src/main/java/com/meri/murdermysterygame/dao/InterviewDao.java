@@ -28,8 +28,8 @@ public class InterviewDao {
         interviewRepository.save(interview);
     }
 
-    public void update(Interview updatedInterview){
-        interviewRepository.save(updatedInterview);
+    public Interview update(Interview updatedInterview){
+        return interviewRepository.save(updatedInterview);
     }
 
     public void delete(Long id){

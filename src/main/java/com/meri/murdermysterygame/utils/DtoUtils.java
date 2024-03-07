@@ -39,6 +39,10 @@ public class DtoUtils {
         if(dto.getInterviewDtoList() != null && !dto.getInterviewDtoList().isEmpty()){
             List<InterviewDto> interviewDtoList = dto.getInterviewDtoList();
             List<Interview> interviewList = interviewDtoList.stream().map(DtoUtils::convertInterviewDtoToInterviewEntity).toList();
+            interviewList = interviewList.stream().map(i ->{
+               i.setPerson(personEntity);
+               return i;
+            }).toList();
             personEntity.setInterviews(interviewList);
         }
         return personEntity;

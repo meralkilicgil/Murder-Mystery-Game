@@ -29,6 +29,7 @@ public class Person {
     private String addressStreetName;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Interview> interviews;
 
     public Long getId() {

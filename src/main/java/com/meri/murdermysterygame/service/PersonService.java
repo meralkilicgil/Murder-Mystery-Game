@@ -50,9 +50,9 @@ public class PersonService {
 
     public PersonDto updatePerson(PersonDto personDto, Long id) throws ObjectNotFoundException {
         Long licenseId = personDto.getLicenseId();
+        PersonDto oldPerson = getPersonById(id);
         if( licenseId != null){
-            DriversLicenseDto driversLicenseDto= new DriversLicenseDto();
-            driversLicenseDto.setId(personDto.getLicenseId());
+            DriversLicenseDto driversLicenseDto = oldPerson.getDriversLicense();
             personDto.setDriversLicense(driversLicenseDto);
         }
         Person person = DtoUtils.convertPersonDtoToPersonEntity(personDto);

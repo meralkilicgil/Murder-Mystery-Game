@@ -56,9 +56,9 @@ public class InterviewService {
     public InterviewDto updateInterview(InterviewDto interviewDto, Long id) throws ObjectNotFoundException {
         Interview interview = DtoUtils.convertInterviewDtoToInterviewEntity(interviewDto);
         interview.setId(id);
-        interviewDao.update(interview);
+        interview = interviewDao.update(interview);
         if(interviewDto.getPersonId() != null){
-            updatePerson(interviewDto.getPersonId(), interviewDto);
+            updatePerson(interviewDto.getPersonId(), interview);
         }
         return getInterviewById(id);
     }
@@ -68,13 +68,13 @@ public class InterviewService {
         interviewDao.delete(id);
     }
 
-    public void updatePerson(Long personId, InterviewDto interviewDto) {
+    public void updatePerson(Long personId, Interview interview) {
         try {
             PersonDto personDto = personService.getPersonById(personId);
             List<InterviewDto> interviewDtoList = personDto.getInterviewDtoList();
             interviewDtoList = interviewDtoList.stream().map(i -> {
-                if (Objects.equals(i.getId(), interviewDto.getId())) {
-                    i = interviewDto;
+                if (Objects.equals(i.getId(), interview.getId())) {
+                    i = DtoUtils.convertInterviewEntityToInterviewDto(interview);
                 }
                 return i;
             }).toList();
