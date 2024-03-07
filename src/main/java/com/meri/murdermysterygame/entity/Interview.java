@@ -2,9 +2,15 @@ package com.meri.murdermysterygame.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "interview")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Interview {
 
     @Id
@@ -18,28 +24,4 @@ public class Interview {
 
     @Column(name = "transcript")
     private String transcript;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-
-    public String getTranscript() {
-        return transcript;
-    }
-
-    public void setTranscript(String transcript) {
-        this.transcript = transcript;
-    }
 }
